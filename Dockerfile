@@ -33,6 +33,8 @@ RUN apt-get update && \
  rm -rf /var/lib/apt/lists/
 COPY start.sh /start.sh
 RUN chmod +x /start.sh
+VOLUME ["/mnt/sandbox"]
+WORKDIR /mnt/sandbox
 CMD ["/start.sh"]    
 
 #$(lsb_release -cs) stable"
