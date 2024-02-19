@@ -4,7 +4,7 @@ MAINTAINER Tim Chaubet <tim@chaubet.be>
 
 RUN apt-get update && \
  DEBIAN_FRONTEND=noninteractive apt-get install -y \
-  apt-utils
+  apt-utils \
   python3 \
   python3-pip \
   python3-full \
