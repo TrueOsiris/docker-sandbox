@@ -13,6 +13,7 @@ RUN apt-get update && \
   gnupg \
   lsb-release \
   cron \
+  logrotate \
  && \
 # pip install --upgrade pip && \
 # curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /usr/share/keyrings/docker-archive-keyring.gpg && \
