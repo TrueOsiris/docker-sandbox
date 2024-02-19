@@ -6,6 +6,7 @@ RUN apt-get update && \
  DEBIAN_FRONTEND=noninteractive apt-get install -y \
   python3 \
   python3-pip \
+  python3-full \
   nmap \
   iputils-ping \
   net-tools \
@@ -14,14 +15,17 @@ RUN apt-get update && \
   lsb-release \
   cron \
   logrotate \
+  apt-transport-https \
+  ca-certificates \
+  gnupg-agent \
+  software-properties-common \
  && \
-# pip install --upgrade pip && \
-# curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /usr/share/keyrings/docker-archive-keyring.gpg && \
-# echo \
-#  "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/docker-archive-keyring.gpg] https://download.docker.com/linux/ubuntu \
-#  $(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null && \
+ curl -fsSL https://download.docker.com/linux/ubuntu/gpg | gpg --dearmor -o /etc/apt/trusted.gpg.d/docker.gpg && \
+ echo \
+  "deb [arch=$(dpkg --print-architecture)] https://download.docker.com/linux/ubuntu jammy stable" \ 
+  | tee /etc/apt/sources.list.d/docker.list > /dev/null && \
  apt-get update && \
-# apt-get install docker-ce-cli && \
+ apt-get install docker-ce-cli && \
  apt-get clean && \
  apt-get autoremove -y && \
  apt-get autoclean -y && \
@@ -29,3 +33,5 @@ RUN apt-get update && \
 COPY start.sh /start.sh
 RUN chmod +x /start.sh
 CMD ["/start.sh"]    
+
+#$(lsb_release -cs) stable"
