@@ -83,7 +83,7 @@ echo '/var/log/cron.log {
 echo "30 5 * * * /usr/sbin/logrotate /etc/logrotate.d/git-cron" >> /etc/cron.d/git-cron
 
 # Set root password and allow SSH login
-echo "root:$SSHPASS" | chpasswd
+echo "root:$SSH_PASSWORD" | chpasswd
 
 # Update passwd file to use /mnt/repos as root's home directory
 /usr/bin/sed '/root/s!\(.*:\).*:\(.*\)!\1/mnt/repos:\2!' /etc/passwd > /etc/passwd2

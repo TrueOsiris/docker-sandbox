@@ -1,5 +1,7 @@
 FROM ubuntu:24.04
 
+COPY scripts/ /scripts/
+
 # Install dependencies and Docker
 RUN apt-get update && \
  DEBIAN_FRONTEND=noninteractive apt-get install -y \
@@ -18,7 +20,8 @@ RUN apt-get update && \
   apt-transport-https \
   ca-certificates \
   software-properties-common \
-  openssh-server && \
+  openssh-server \
+  git && \
  apt-get clean && \
  apt-get autoremove -y && \
  apt-get autoclean -y && \
@@ -38,16 +41,10 @@ RUN curl -fsSL https://download.docker.com/linux/ubuntu/gpg | gpg --dearmor -o /
 # Configure OpenSSH (set up password authentication for SSH)
 RUN mkdir /var/run/sshd && \
  echo 'PermitRootLogin yes' >> /etc/ssh/sshd_config && \
- echo 'PasswordAuthentication yes' >> /etc/ssh/sshd_config
-
-# Copy all scripts to /scripts and make them executable
-COPY scripts/ /scripts/
-RUN chmod +x /scripts/*
-
-# Set the root password using the SSH_PASSWORD environment variable
-# Default to '123456789' if not provided
-ARG SSH_PASSWORD=123456789
-RUN echo "root:$SSH_PASSWORD" | chpasswd
+ echo 'PasswordAuthentication yes' >> /etc/ssh/sshd_config && \
+ echo 'export LS_COLORS="rs=0:di=01;38;5;81:ln=01;36:mh=00:pi=40;33"' >> /root/.bashrc && \
+ chmod +x /scripts/* && \
+ echo "root:$SSH_PASSWORD" | chpasswd
 
 # Expose the SSH port (22) for SSH access
 EXPOSE 22
