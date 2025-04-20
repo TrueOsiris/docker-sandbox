@@ -1,5 +1,8 @@
 #!/bin/bash
 
+# Ensure SSH_PASSWORD is set (default to '1234567890' if not provided)
+SSH_PASSWORD="${SSH_PASSWORD:-1234567890}"
+
 # Create the cron log file if it doesn't exist
 /usr/bin/touch /var/log/cron.log 2>/dev/null
 /usr/bin/chmod 666 /var/log/cron.log 2>/dev/null
