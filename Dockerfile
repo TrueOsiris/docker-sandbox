@@ -40,9 +40,9 @@ RUN mkdir /var/run/sshd && \
  echo 'PermitRootLogin yes' >> /etc/ssh/sshd_config && \
  echo 'PasswordAuthentication yes' >> /etc/ssh/sshd_config
 
-# Copy start.sh and set the correct permissions
-COPY start.sh /start.sh
-RUN chmod +x /start.sh
+# Copy all scripts to /scripts and make them executable
+COPY scripts/ /scripts/
+RUN chmod +x /scripts/*
 
 # Set the root password using the SSH_PASSWORD environment variable
 # Default to '123456789' if not provided
@@ -52,11 +52,11 @@ RUN echo "root:$SSH_PASSWORD" | chpasswd
 # Expose the SSH port (22) for SSH access
 EXPOSE 22
 
-# Create volume for sandbox
-VOLUME ["/mnt/sandbox"]
+# Create volume for repos
+VOLUME ["/mnt/repos"]
 
 # Set the working directory
-WORKDIR /mnt/sandbox
+WORKDIR /mnt/repos
 
 # Default command to run the start.sh script and SSH service
-CMD ["/start.sh"]
+CMD ["/scripts/start.sh"]
