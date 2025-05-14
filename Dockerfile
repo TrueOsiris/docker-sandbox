@@ -7,6 +7,7 @@ RUN chmod +x /scripts/*
 # Install dependencies and Docker
 RUN apt-get update && \
  DEBIAN_FRONTEND=noninteractive apt-get install -y \
+  vim \
   apt-utils \
   python3 \
   python3-pip \
