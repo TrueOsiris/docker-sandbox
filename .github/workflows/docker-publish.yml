@@ -13,7 +13,6 @@ on:
 
 env:
   REGISTRY: ghcr.io
-  IMAGE_NAMESPACE: ${{ github.repository_owner }}
 
 jobs:
   build-and-push:
@@ -33,23 +32,28 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
+      - name: Lowercase Registry Path
+        id: repo
+        run: |
+          echo "owner=${GITHUB_REPOSITORY_OWNER,,}" >> $GITHUB_OUTPUT
+
       - name: Extract metadata (tags, labels) for Docker
         id: meta
         uses: docker/metadata-action@v5
         with:
           images: |
-            ${{ env.REGISTRY }}/${{ env.IMAGE_NAMESPACE }}/sandbox
-            ${{ env.REGISTRY }}/${{ env.IMAGE_NAMESPACE }}/docker-sandbox
+            ${{ env.REGISTRY }}/${{ steps.repo.outputs.owner }}/sandbox
+            ${{ env.REGISTRY }}/${{ steps.repo.outputs.owner }}/docker-sandbox
 
       - name: Build and push Docker image
-        uses: docker/build-push-action@v5
+        uses: docker/build-push-action@v6
         with:
           context: .
           push: true
           tags: |
-            ${{ env.REGISTRY }}/${{ env.IMAGE_NAMESPACE }}/sandbox:latest
-            ${{ env.REGISTRY }}/${{ env.IMAGE_NAMESPACE }}/docker-sandbox:latest
-            ${{ env.REGISTRY }}/${{ env.IMAGE_NAMESPACE }}/sandbox:${{ github.sha }}
-            ${{ env.REGISTRY }}/${{ env.IMAGE_NAMESPACE }}/docker-sandbox:${{ github.sha }}
+            ${{ env.REGISTRY }}/${{ steps.repo.outputs.owner }}/sandbox:latest
+            ${{ env.REGISTRY }}/${{ steps.repo.outputs.owner }}/docker-sandbox:latest
+            ${{ env.REGISTRY }}/${{ steps.repo.outputs.owner }}/sandbox:${{ github.sha }}
+            ${{ env.REGISTRY }}/${{ steps.repo.outputs.owner }}/docker-sandbox:${{ github.sha }}
           labels: ${{ steps.meta.outputs.labels }}
           pull: true
