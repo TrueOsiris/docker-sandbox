@@ -16,6 +16,7 @@ RUN apt-get update && \
     nmap \
     iputils-ping \
     net-tools \
+    snmp \
     curl \
     gnupg \
     lsb-release \
