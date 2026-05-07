@@ -5,7 +5,7 @@ FROM ubuntu:24.04
 
 # Copy the scripts to the container
 COPY scripts/ /scripts/
-RUN chmod +x /scripts/*
+RUN chmod -R 755 /scripts
 
 # Update, Upgrade, and Install core utilities + Docker CLI
 RUN apt-get update && \

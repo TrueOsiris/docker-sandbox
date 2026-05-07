@@ -3,7 +3,7 @@
 # Author: Tim Chaubet
 
 # Start the SSH service
-service ssh start
+service ssh start || /usr/sbin/sshd
 
 # Keep the container alive
-tail -f /dev/null
+while true; do sleep 1000; done
