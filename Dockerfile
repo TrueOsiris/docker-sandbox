@@ -27,6 +27,7 @@ RUN apt-get update && \
     software-properties-common \
     openssh-server \
     git \
+    subversion \
     docker.io && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*
