@@ -31,10 +31,13 @@ RUN apt-get update && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*
 
-# Configure OpenSSH
-RUN mkdir /var/run/sshd && \
-    echo 'PermitRootLogin yes' >> /etc/ssh/sshd_config && \
-    echo 'PasswordAuthentication yes' >> /etc/ssh/sshd_config
+# Configure OpenSSH via a drop-in file to guarantee it overrides defaults
+RUN mkdir -p /var/run/sshd && \
+    echo 'PermitRootLogin yes' > /etc/ssh/sshd_config.d/99-custom.conf && \
+    echo 'PasswordAuthentication yes' >> /etc/ssh/sshd_config.d/99-custom.conf
+
+# Record the build time directly into the image
+RUN echo "Image built on: $(date)" > /etc/image_build_date
 
 EXPOSE 22
 
