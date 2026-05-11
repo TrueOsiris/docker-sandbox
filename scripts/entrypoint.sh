@@ -11,9 +11,12 @@ else
 fi
 echo "========================================"
 
+# Determine password: Use environment variable if present, otherwise fallback to 123456789
+FINAL_PASSWORD="${SSH_PASSWORD:-123456789}"
+
 # Update the root password
 echo "[INFO] Setting root password..."
-echo "root:${SSH_PASSWORD}" | chpasswd
+echo "root:${FINAL_PASSWORD}" | chpasswd
 
 echo "[INFO] Starting OpenSSH server..."
 service ssh start || /usr/sbin/sshd -D

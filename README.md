@@ -11,7 +11,6 @@
       - PUID=0
       - PGID=0
       - TZ=Europe/Brussels
-      - SSH_PASSWORD=${SSH_PASSWORD:-123456789}  # Default to '123456789' if not set in .env
     volumes:
       - type: bind
         source: /mnt/user/docker_volumes/dev/sandbox/repos 
