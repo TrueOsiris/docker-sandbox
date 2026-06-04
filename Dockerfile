@@ -28,7 +28,10 @@ RUN apt-get update && \
     openssh-server \
     git \
     subversion \
-    docker.io && \
+    docker.io \
+    python3 \
+    python3-pip \
+    python3-venv && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*
 
